@@ -10,14 +10,10 @@ function getParents(suite, acc = "") {
 }
 
 function ActionsReporter(runner) {
-	mocha.reporters.Base.call(this, runner);
+	mocha.reporters.Spec.call(this, runner);
 
 	var passes = 0;
 	var failures = 0;
-
-	// runner.on('pass', function (test) {
-	// 	passes++;
-	// });
 
 	runner.on('fail', function (test, err) {
 		const parents = getParents(test)
@@ -25,8 +21,6 @@ function ActionsReporter(runner) {
 			title: parents,
 		})
 	});
-
-	// runner.on('end', function () {
-	// 	console.log('end: %d/%d', passes, passes + failures);
-	// });
 }
+
+mocha.utils.inherits(ActionsReporter, mocha.reporters.Spec);
